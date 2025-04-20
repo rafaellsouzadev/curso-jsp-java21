@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="./styllers/login.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/styllers/login.css">
 <title>Curso JSP</title>
 </head>
 <body>
@@ -14,6 +14,8 @@
 	<div class="input-login">
 	
 		<form action="ServletLogin" method="post" class="login-container ">
+		<input type="hidden" value="${param.url}" name="url">
+
 			<div >
 				<label>E-mail</label>
 				<input type="text" name="email">		

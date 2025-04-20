@@ -11,7 +11,7 @@ import model.ModelLogin;
 import java.io.IOException;
 
 
-@WebServlet("/ServletLogin")
+@WebServlet(urlPatterns = {"/principal/ServletLogin", "/ServletLogin"})
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,6 +30,7 @@ public class ServletLogin extends HttpServlet {
 		
 		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");
+		String url = request.getParameter("url");
 		
 		if (email != null && !email.isEmpty() && senha != null && !senha.isEmpty()) {
 			
@@ -39,12 +40,16 @@ public class ServletLogin extends HttpServlet {
 			
 			if (login.getEmail().equalsIgnoreCase("rafael@gmail.com") && login.getSenha().equals("admin@01")) {
 				
-				request.getSession().setAttribute("usuario", login);
+				request.getSession().setAttribute("usuario", login.getEmail());
 				
-				RequestDispatcher redirecionar = request.getRequestDispatcher("./principal/principal.jsp");
+				if (url == null || url.isEmpty()) {
+					url = "/principal/principal.jsp";
+				}
+				
+				RequestDispatcher redirecionar = request.getRequestDispatcher(url);
 				redirecionar.forward(request, response);
 			}else {
-				RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
+				RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
 				request.setAttribute("msg", "Informe o login e senha corretamente!");
 				redirecionar.forward(request, response);
 			}
