@@ -36,6 +36,18 @@ public class ServletLogin extends HttpServlet {
 			ModelLogin login = new ModelLogin();
 			login.setEmail(email);
 			login.setSenha(senha);
+			
+			if (login.getEmail().equalsIgnoreCase("rafael@gmail.com") && login.getSenha().equals("admin@01")) {
+				
+				request.getSession().setAttribute("usuario", login);
+				
+				RequestDispatcher redirecionar = request.getRequestDispatcher("./principal/principal.jsp");
+				redirecionar.forward(request, response);
+			}else {
+				RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
+				request.setAttribute("msg", "Informe o login e senha corretamente!");
+				redirecionar.forward(request, response);
+			}
 		}else {
 			RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
 			request.setAttribute("msg", "Informe o login e senha corretamente!");
