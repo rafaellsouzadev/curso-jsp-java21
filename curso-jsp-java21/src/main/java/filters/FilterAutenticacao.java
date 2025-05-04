@@ -69,15 +69,21 @@ public class FilterAutenticacao extends HttpFilter implements Filter {
 			} else {
 				chain.doFilter(request, response);
 			}
-			
-			connection.commit(); /*Deu tudo certo, enato comita as alteracoroes no banco de dados*/
+
+			connection.commit(); /* Deu tudo certo, enato comita as alteracoroes no banco de dados */
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+			request.setAttribute("msg", e.getMessage());
+			redirecionar.forward(request, response);
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
+				redirecionar = request.getRequestDispatcher("erro.jsp");
+				request.setAttribute("msg", e.getMessage());
+				redirecionar.forward(request, response);
 			}
 		}
 	}
